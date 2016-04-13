@@ -1,0 +1,9 @@
+[submodule "contrib/wubwubcmake"]
+	path = contrib/wubwubcmake
+	url = ssh://git@github.com/NickNick/wubwubcmake
+[submodule "contrib/msgpack-c"]
+	path = contrib/msgpack-c
+	url = ssh://git@github.com/msgpack/msgpack-c
+[submodule "contrib/glm"]
+	path = contrib/glm
+	url = ssh://github.com/g-truc/glm
