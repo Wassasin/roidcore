@@ -7,6 +7,8 @@
 #include <type_traits>
 #include <cstdlib>
 
+#include <roidcore/entities.hpp>
+
 namespace roidcore
 {
 	namespace detail

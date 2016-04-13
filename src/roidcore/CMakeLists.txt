@@ -8,6 +8,13 @@ target_link_libraries(roidcore
 	${msgpack_LIBRARIES}
 	${CMAKE_THREAD_LIBS_INIT})
 
+add_executable(roidcore-benchmark benchmark.cpp)
+target_link_libraries(roidcore-benchmark
+	${Boost_LIBRARIES}
+	${msgpack_LIBRARIES}
+	${CMAKE_THREAD_LIBS_INIT}
+	benchmark)
+
 list(APPEND roidcore_INCLUDE_DIRS ${msgpack_INCLUDE_DIRS})
 
 include_directories(SYSTEM ${roidcore_INCLUDE_DIRS})

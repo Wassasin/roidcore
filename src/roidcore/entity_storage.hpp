@@ -21,6 +21,11 @@ namespace roidcore
 			, first_empty(1) // One after end of buffer
 		{}
 
+		void reserve(size_t n)
+		{
+			buffer.reserve(n);
+		}
+
 		entity_id<T> emplace_fast(T&& x)
 		{
 			if(first_empty >= buffer.size())
@@ -42,7 +47,7 @@ namespace roidcore
 			assert(!buffer[first_empty]);
 			buffer[first_empty].reset(std::move(x));
 
-			for(first_empty+1; first_empty < buffer.size(); ++first_empty)
+			for(first_empty++; first_empty < buffer.size(); ++first_empty)
 			{
 				if(!buffer[first_empty])
 					return;
