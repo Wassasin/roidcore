@@ -59,7 +59,12 @@ namespace roidcore
 		template<typename F>
 		void foreach(F f)
 		{
-			for(size_t i = 0; i < buffer.size(); ++i)
+			for(size_t i = 0; i < first_empty; ++i)
+			{
+				f(entity_id<T>(i), *buffer[i]);
+			}
+
+			for(size_t i = first_empty+1; i < buffer.size(); ++i)
 			{
 				if(buffer[i])
 					f(entity_id<T>(i), *buffer[i]);
@@ -69,7 +74,12 @@ namespace roidcore
 		template<typename F>
 		void foreach(F f) const
 		{
-			for(size_t i = 0; i < buffer.size(); ++i)
+			for(size_t i = 0; i < first_empty; ++i)
+			{
+				f(entity_id<T>(i), *buffer[i]);
+			}
+
+			for(size_t i = first_empty+1; i < buffer.size(); ++i)
 			{
 				if(buffer[i])
 					f(entity_id<T>(i), *buffer[i]);

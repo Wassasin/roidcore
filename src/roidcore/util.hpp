@@ -73,10 +73,9 @@ namespace roidcore
 	static inline C& get_first_component_ref(E& e)
 	{
 		static_assert(has_component<E, C>());
-		return boost::fusion::at<
-			boost::mpl::int_<
-				detail::get_first_index<E, C, boost::mpl::int_<0>>::value
-		>>(e);
+		static constexpr size_t pos = detail::get_first_index<E, C, boost::mpl::int_<0>>::value;
+		static_assert(!detail::has_component<E, C, boost::mpl::int_<pos+1>>::value, "Object should not contain component twice in same entity");
+		return boost::fusion::at<boost::mpl::int_<pos>>(e);
 	}
 
 	template<typename E, typename F, typename... ARGS>

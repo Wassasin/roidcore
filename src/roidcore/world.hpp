@@ -19,9 +19,8 @@ namespace roidcore
 			static inline void exec(entity_storage<E>& es, F f)
 			{
 				es.foreach([f](entity_id<E> id, E& e) {
-//					auto f_new = [f, id](ARGS... args) { f(id.get_dyn_id(), args...); };
-//					exec_with_components<E, decltype(f_new), ARGS...>(e, f_new);
-					exec_with_components<E, F, ARGS...>(e, f);
+					auto f_new = [f, id](ARGS... args) { f(id.get_dyn_id(), args...); };
+					exec_with_components<E, decltype(f_new), ARGS...>(e, f_new);
 				});
 			}
 		};

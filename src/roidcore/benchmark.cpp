@@ -58,7 +58,7 @@ static void bench_awesome(benchmark::State &state)
 		roidcore::world w(init_world());
 
 		for(size_t i = 0; i < iterations; ++i)
-			w.exec_with<position, velocity>([](position& p, velocity& v) {
+			w.exec_with<position, velocity>([](entity_dyn_id, position& p, velocity& v) {
 				p.p += v.v;
 			});
 	}

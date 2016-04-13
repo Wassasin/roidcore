@@ -11,7 +11,7 @@ namespace roidcore
 {
 	static void proc_deltaxy(world& w)
 	{
-		w.exec_with<position, velocity>([](position& p, velocity& v) {
+		w.exec_with<position, velocity>([](entity_dyn_id, position& p, velocity& v) {
 			p.p += v.v;
 			std::printf("%f, %f +(%f, %f)\n", p.p.x, p.p.y, v.v.x, v.v.y);
 		});
