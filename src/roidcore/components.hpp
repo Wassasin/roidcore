@@ -1,10 +1,17 @@
 #pragma once
 
 #include <glm/vec2.hpp>
-#include <boost/fusion/include/adapt_struct.hpp>
+#include <boost/serialization/strong_typedef.hpp>
 
 namespace roidcore
 {
-	typedef glm::vec2 position;
-	typedef glm::vec2 velocity;
+	struct position
+	{
+		glm::vec2 p;
+	};
+
+	struct velocity
+	{
+		glm::vec2 v;
+	};
 }

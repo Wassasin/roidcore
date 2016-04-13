@@ -26,7 +26,7 @@ namespace roidcore
 			buffer.reserve(n);
 		}
 
-		entity_id<T> emplace_fast(T&& x)
+		entity_id<T> emplace_fast(T x)
 		{
 			if(first_empty >= buffer.size())
 				first_empty++;
@@ -45,7 +45,7 @@ namespace roidcore
 			}
 
 			assert(!buffer[first_empty]);
-			buffer[first_empty].reset(std::move(x));
+			buffer[first_empty] = std::move(x);
 
 			for(first_empty++; first_empty < buffer.size(); ++first_empty)
 			{
@@ -61,9 +61,8 @@ namespace roidcore
 		{
 			for(size_t i = 0; i < buffer.size(); ++i)
 			{
-				auto& entry_opt = buffer[i];
-				if(entry_opt)
-					f(entity_id<T>(i), *entry_opt);
+				if(buffer[i])
+					f(entity_id<T>(i), *buffer[i]);
 			}
 		}
 		
@@ -72,9 +71,8 @@ namespace roidcore
 		{
 			for(size_t i = 0; i < buffer.size(); ++i)
 			{
-				auto& entry_opt = buffer[i];
-				if(entry_opt)
-					f(entity_id<T>(i), *entry_opt);
+				if(buffer[i])
+					f(entity_id<T>(i), *buffer[i]);
 			}
 		}
 	};

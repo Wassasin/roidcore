@@ -5,19 +5,20 @@
 
 #include <roidcore/world.hpp>
 
+static constexpr size_t number = 1024*5;
+static constexpr size_t iterations = 100;
+
 static roidcore::world init_world()
 {
 	using namespace roidcore;
 	world w;
 
-	const size_t number = 1024;
-
 	w.ships.reserve(number);
 	for(size_t i = 0; i < number; ++i)
 	{
 		roidcore::ship s;
-		s.p = glm::vec2(0.0f, 0.0f);
-		s.v = glm::vec2(0.1f, 0.2f);
+		s.p.p = glm::vec2(0.0f, 0.0f);
+		s.v.v = glm::vec2(0.1f, 0.2f);
 		w.ships.emplace(std::move(s));
 	}
 
@@ -41,9 +42,9 @@ static void bench_plain(benchmark::State &state)
 	{
 		roidcore::world w(init_world());
 
-		for(size_t i = 0; i < 1000; ++i)
+		for(size_t i = 0; i < iterations; ++i)
 			w.ships.foreach([](entity_id<ship>, ship& s) {
-				s.p += s.v;
+				s.p.p += s.v.v;
 			});
 	}
 }
@@ -56,9 +57,9 @@ static void bench_awesome(benchmark::State &state)
 	{
 		roidcore::world w(init_world());
 
-		for(size_t i = 0; i < 1000; ++i)
-			w.exec_with<position, velocity>([](entity_dyn_id, position& p, velocity& v) {
-				p += v;
+		for(size_t i = 0; i < iterations; ++i)
+			w.exec_with<position, velocity>([](position& p, velocity& v) {
+				p.p += v.v;
 			});
 	}
 }

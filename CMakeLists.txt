@@ -15,7 +15,7 @@ include("contrib/wubwubcmake/enable_cpp14.cmake")
 include("contrib/wubwubcmake/warning_settings.cmake")
 add_sane_warning_flags()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -fno-exceptions -fno-rtti -fno-omit-frame-pointer")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -fno-exceptions -fno-rtti -fno-omit-frame-pointer -Wall -Wextra -Wpedantic")
 
 list(APPEND roidcore_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/src/")
 list(APPEND roidcore_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/contrib/glm/")

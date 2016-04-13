@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <cstdio>
+#include <iostream>
 
 #include <roidcore/world.hpp>
 
@@ -10,22 +11,17 @@ namespace roidcore
 {
 	static void proc_deltaxy(world& w)
 	{
-		w.exec_with<position, velocity>([](entity_dyn_id, position& p, velocity& v) {
-			p += v;
+		w.exec_with<position, velocity>([](position& p, velocity& v) {
+			p.p += v.v;
+			std::printf("%f, %f +(%f, %f)\n", p.p.x, p.p.y, v.v.x, v.v.y);
 		});
 	}
 
 	static void proc_deltaxyplain(world& w)
 	{
 		w.ships.foreach([](entity_id<ship>, ship& s) {
-			s.p += s.v;
-		});
-	}
-
-	static void proc_debug(world const& w)
-	{
-		w.ships.foreach([](entity_id<ship>, ship const& s) {
-			std::printf("%f, %f\n", s.p.x, s.p.y);
+			s.p.p += s.v.v;
+			std::printf("%f, %f +(%f, %f)\n", s.p.p.x, s.p.p.y, s.v.v.x, s.v.v.y);
 		});
 	}
 
@@ -33,29 +29,21 @@ namespace roidcore
 	{
 		world w;
 
-		for(size_t i = 0; i < 2; ++i)
+		for(size_t i = 0; i < 1; ++i)
 		{
 			ship s;
-			s.p = glm::vec2(0.0f, 0.0f);
-			s.v = glm::vec2(0.1f, 0.2f);
+			s.p.p = glm::vec2(0.1f, 0.1f);
+			s.v.v = glm::vec2(0.1f, 0.2f);
 			w.ships.emplace(std::move(s));
 		}
 		
-		for(size_t i = 0; i < 500; ++i)
-			proc_deltaxy(w);
-
-		proc_debug(w);
-		
-		for(size_t i = 0; i < 500; ++i)
+		std::cout << "plain" << std::endl;
+		for(size_t i = 0; i < 5; ++i)
 			proc_deltaxyplain(w);
-
-		proc_debug(w);
 		
-		for(size_t i = 0; i < 500; ++i)
+		std::cout << "awesome" << std::endl;
+		for(size_t i = 0; i < 5; ++i)
 			proc_deltaxy(w);
-		
-		for(size_t i = 0; i < 500; ++i)
-			proc_deltaxyplain(w);
 	}
 }
 
