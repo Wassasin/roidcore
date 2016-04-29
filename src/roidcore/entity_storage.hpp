@@ -18,12 +18,21 @@ namespace roidcore
 	public:
 		entity_storage()
 			: buffer()
-			, first_empty(1) // One after end of buffer
+			, first_empty(0) // One after end of buffer
 		{}
 
 		void reserve(size_t n)
 		{
 			buffer.reserve(n);
+		}
+
+		void remove(entity_id<T> id)
+		{
+			assert(buffer[id.id]);
+			buffer[id.id].reset();
+
+			if(id.id < first_empty)
+				first_empty = id.id;
 		}
 
 		entity_id<T> emplace_fast(T x)

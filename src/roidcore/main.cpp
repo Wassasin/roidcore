@@ -13,7 +13,6 @@ namespace roidcore
 	{
 		w.exec_with<position, velocity>([](entity_dyn_id, position& p, velocity& v) {
 			p.p += v.v;
-			std::printf("%f, %f +(%f, %f)\n", p.p.x, p.p.y, v.v.x, v.v.y);
 		});
 	}
 
@@ -21,7 +20,13 @@ namespace roidcore
 	{
 		w.ships.foreach([](entity_id<ship>, ship& s) {
 			s.p.p += s.v.v;
-			std::printf("%f, %f +(%f, %f)\n", s.p.p.x, s.p.p.y, s.v.v.x, s.v.v.y);
+		});
+	}
+
+	static void proc_print(world& w)
+	{
+		w.exec_with<position>([](entity_dyn_id const id, position& p) {
+			std::printf("%hhu[%zu]: %f, %f\n", id.type, id.id, p.p.x, p.p.y);
 		});
 	}
 
@@ -29,7 +34,26 @@ namespace roidcore
 	{
 		world w;
 
-		for(size_t i = 0; i < 1; ++i)
+		for(size_t i = 0; i < 5; ++i)
+		{
+			ship s;
+			s.p.p = glm::vec2(0.1f, 0.1f);
+			s.v.v = glm::vec2(0.1f, 0.2f);
+			w.ships.emplace(std::move(s));
+		}
+		
+		for(size_t i = 0; i < 5; ++i)
+		{
+			station s;
+			s.p.p = glm::vec2(1.0f*i, 1.0f*i);
+			w.stations.emplace(std::move(s));
+		}
+
+		w.ships.remove(0);
+		w.ships.remove(4);
+		w.stations.remove(2);
+		
+		for(size_t i = 0; i < 5; ++i)
 		{
 			ship s;
 			s.p.p = glm::vec2(0.1f, 0.1f);
@@ -39,11 +63,19 @@ namespace roidcore
 		
 		std::cout << "plain" << std::endl;
 		for(size_t i = 0; i < 5; ++i)
+		{
 			proc_deltaxyplain(w);
+		}
+		
+		proc_print(w);
 		
 		std::cout << "awesome" << std::endl;
 		for(size_t i = 0; i < 5; ++i)
+		{
 			proc_deltaxy(w);
+		}
+
+		proc_print(w);
 	}
 }
 
