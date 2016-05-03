@@ -10,8 +10,11 @@ namespace roidcore
 	template<typename T>
 	class entity_storage
 	{
+	public:
+		typedef T entity_t;
 		typedef boost::optional<T> entry_t;
 
+	private:
 		std::vector<entry_t> buffer;
 		size_t first_empty;
 

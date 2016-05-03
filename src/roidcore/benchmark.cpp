@@ -13,13 +13,13 @@ static roidcore::world init_world()
 	using namespace roidcore;
 	world w;
 
-	w.ships.reserve(number);
+	w.get<ship>().reserve(number);
 	for(size_t i = 0; i < number; ++i)
 	{
 		roidcore::ship s;
 		s.p.p = glm::vec2(0.0f, 0.0f);
 		s.v.v = glm::vec2(0.1f, 0.2f);
-		w.ships.emplace(std::move(s));
+		w.get<ship>().emplace(std::move(s));
 	}
 
 	return w;
@@ -43,7 +43,7 @@ static void bench_plain(benchmark::State &state)
 		roidcore::world w(init_world());
 
 		for(size_t i = 0; i < iterations; ++i)
-			w.ships.foreach([](entity_id<ship>, ship& s) {
+			w.get<ship>().foreach([](entity_id<ship>, ship& s) {
 				s.p.p += s.v.v;
 			});
 	}

@@ -3,12 +3,17 @@
 #include <roidcore/entities.hpp>
 #include <roidcore/entity_storage.hpp>
 
+#include <boost/fusion/include/for_each.hpp>
+#include <boost/fusion/mpl.hpp>
+#include <boost/mpl/transform.hpp>
+
 namespace roidcore
 {
 	struct world
 	{
-		entity_storage<ship> ships;
-		entity_storage<station> stations;
+		typedef typename boost::mpl::transform<entities_list, entity_storage<boost::mpl::_1>>::type storage_t;
+		
+		storage_t storage;
 
 		template<bool enable, typename E, typename F, typename... ARGS>
 		struct call_if;
@@ -49,11 +54,24 @@ namespace roidcore
 			static constexpr bool value = has_component<E, C>();
 		};
 
+		template<typename T>
+		inline entity_storage<T>& get()
+		{
+			return boost::fusion::at<get_first_index<entities_list, T>>(storage);
+		}
+		
+		template<typename T>
+		inline entity_storage<T>& get() const
+		{
+			return boost::fusion::at_c<get_first_index<entities_list, T>>(storage);
+		}
+		
 		template<typename... ARGS, typename F>
 		inline void exec_with(F f)
 		{
-			call_if<has_components<ship, ARGS...>::value, ship, F, ARGS...>::exec(ships, f);
-			call_if<has_components<station, ARGS...>::value, station, F, ARGS...>::exec(stations, f);
+			boost::fusion::for_each(storage, [&](auto st) {
+				call_if<has_components<typename decltype(st)::entity_t, ARGS...>::value, typename decltype(st)::entity_t, F, ARGS...>::exec(st, f);
+			});
 		}
 	};
 }

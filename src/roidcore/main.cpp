@@ -18,7 +18,7 @@ namespace roidcore
 
 	static void proc_deltaxyplain(world& w)
 	{
-		w.ships.foreach([](entity_id<ship>, ship& s) {
+		w.get<ship>().foreach([](entity_id<ship>, ship& s) {
 			s.p.p += s.v.v;
 		});
 	}
@@ -39,26 +39,26 @@ namespace roidcore
 			ship s;
 			s.p.p = glm::vec2(0.1f, 0.1f);
 			s.v.v = glm::vec2(0.1f, 0.2f);
-			w.ships.emplace(std::move(s));
+			w.get<ship>().emplace(std::move(s));
 		}
 		
 		for(size_t i = 0; i < 5; ++i)
 		{
 			station s;
 			s.p.p = glm::vec2(1.0f*i, 1.0f*i);
-			w.stations.emplace(std::move(s));
+			w.get<station>().emplace(std::move(s));
 		}
 
-		w.ships.remove(0);
-		w.ships.remove(4);
-		w.stations.remove(2);
+		w.get<ship>().remove(0);
+		w.get<ship>().remove(4);
+		w.get<station>().remove(2);
 		
 		for(size_t i = 0; i < 5; ++i)
 		{
 			ship s;
 			s.p.p = glm::vec2(0.1f, 0.1f);
 			s.v.v = glm::vec2(0.1f, 0.2f);
-			w.ships.emplace(std::move(s));
+			w.get<ship>().emplace(std::move(s));
 		}
 		
 		std::cout << "plain" << std::endl;
