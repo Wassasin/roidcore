@@ -17,8 +17,8 @@ static roidcore::world init_world()
 	for(size_t i = 0; i < number; ++i)
 	{
 		roidcore::ship s;
-		s.p.p = glm::vec2(0.0f, 0.0f);
-		s.v.v = glm::vec2(0.1f, 0.2f);
+		s.p = glm::vec2(0.0f, 0.0f);
+		s.v = glm::vec2(0.1f, 0.2f);
 		w.get<ship>().emplace(std::move(s));
 	}
 
@@ -44,7 +44,7 @@ static void bench_plain(benchmark::State &state)
 
 		for(size_t i = 0; i < iterations; ++i)
 			w.get<ship>().foreach([](entity_id<ship>, ship& s) {
-				s.p.p += s.v.v;
+				s.p += s.v;
 			});
 	}
 }
@@ -59,7 +59,7 @@ static void bench_awesome(benchmark::State &state)
 
 		for(size_t i = 0; i < iterations; ++i)
 			w.exec_with<position, velocity>([](entity_dyn_id, position& p, velocity& v) {
-				p.p += v.v;
+				p += v;
 			});
 	}
 }
