@@ -35,16 +35,18 @@ namespace roidcore
 
 		for(size_t i = 0; i < 5; ++i)
 		{
-			ship s;
-			s.p = position(0.1f, 0.1f);
-			s.v = velocity(0.1f, 0.2f);
+			ship s = {
+				position(0.1f, 0.1f),
+				velocity(0.1f, 0.2f)
+			};
 			w.get<ship>().emplace(std::move(s));
 		}
 		
 		for(size_t i = 0; i < 5; ++i)
 		{
-			station s;
-			s.p = position(1.0f*i, 1.0f*i);
+			station s = {
+				position(1.0f*i, 1.0f*i)
+			};
 			w.get<station>().emplace(std::move(s));
 		}
 
@@ -54,9 +56,10 @@ namespace roidcore
 		
 		for(size_t i = 0; i < 5; ++i)
 		{
-			ship s;
-			s.p = position(0.1f, 0.1f);
-			s.v = velocity(0.1f, 0.2f);
+			ship s = {
+				position(0.1f, 0.1f),
+				velocity(0.1f, 0.2f)
+			};
 			w.get<ship>().emplace(std::move(s));
 		}
 		

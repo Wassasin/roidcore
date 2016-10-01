@@ -4,36 +4,34 @@
 
 namespace roidcore
 {
-	struct velocity : glm::vec2
+	template<typename SELF>
+	struct vec2like
 	{
-		velocity()
-		: glm::vec2()
-		{}
-		
-		velocity(glm::vec2&& v)
-		: glm::vec2(std::move(v))
-		{}
+		float x, y;
 
-		velocity(float x, float y)
-		: glm::vec2(x, y)
+		vec2like() = default;
+		vec2like(vec2like&&) = default;
+		
+		vec2like(float _x, float _y)
+		: x(_x)
+		, y(_y)
 		{}
 	};
-	
-	struct position : glm::vec2
-	{
-		position() = default;
-		
-		position(glm::vec2&& v)
-		: glm::vec2(std::move(v))
-		{}
 
-		position(float x, float y)
-		: glm::vec2(x, y)
-		{}
+	struct velocity : public vec2like<velocity>
+	{
+		using vec2like<velocity>::vec2like;
+	};
 	
-		position& operator+=(velocity const& p)
+	struct position : public vec2like<position>
+	{
+		using vec2like<position>::vec2like;
+		
+		position& operator+=(velocity const& v)
 		{
-			return this->operator+=(static_cast<glm::vec2>(p));
+			x += v.x;
+			y += v.y;
+			return *this;
 		}
 	};
 }
