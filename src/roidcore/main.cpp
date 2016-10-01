@@ -41,11 +41,11 @@ namespace roidcore
 			};
 			w.get<ship>().emplace(std::move(s));
 		}
-		
+
 		for(size_t i = 0; i < 5; ++i)
 		{
 			station s = {
-				position(1.0f*i, 1.0f*i)
+				position(1.0f*i, 1.0f*(i+1))
 			};
 			w.get<station>().emplace(std::move(s));
 		}
@@ -53,8 +53,8 @@ namespace roidcore
 		w.get<ship>().remove(0);
 		w.get<ship>().remove(4);
 		w.get<station>().remove(2);
-		
-		for(size_t i = 0; i < 5; ++i)
+
+		for(size_t i = 0; i < 3; ++i)
 		{
 			ship s = {
 				position(0.1f, 0.1f),
@@ -62,17 +62,17 @@ namespace roidcore
 			};
 			w.get<ship>().emplace(std::move(s));
 		}
-		
+
 		std::cout << "plain" << std::endl;
-		for(size_t i = 0; i < 5; ++i)
+		for(size_t i = 0; i < 3; ++i)
 		{
 			proc_deltaxyplain(w);
 		}
-		
+
 		proc_print(w);
-		
+
 		std::cout << "awesome" << std::endl;
-		for(size_t i = 0; i < 5; ++i)
+		for(size_t i = 0; i < 3; ++i)
 		{
 			proc_deltaxy(w);
 		}

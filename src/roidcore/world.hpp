@@ -12,7 +12,7 @@ namespace roidcore
 	struct world
 	{
 		typedef typename boost::mpl::transform<entities_list, entity_storage<boost::mpl::_1>>::type storage_t;
-		
+
 		storage_t storage;
 
 		template<bool enable, typename E, typename F, typename... ARGS>
@@ -29,7 +29,7 @@ namespace roidcore
 				});
 			}
 		};
-		
+
 		template<typename E, typename F, typename... ARGS>
 		struct call_if<false, E, F, ARGS...>
 		{
@@ -47,7 +47,7 @@ namespace roidcore
 		{
 			static constexpr bool value = has_component<E, C>() && has_components<E, CS...>::value;
 		};
-		
+
 		template<typename E, typename C>
 		struct has_components<E, C>
 		{
@@ -59,15 +59,15 @@ namespace roidcore
 		{
 			return boost::fusion::at<get_first_index<entities_list, T>>(storage);
 		}
-		
+
 		template<typename T>
 		inline entity_storage<T>& get() const
 		{
 			return boost::fusion::at_c<get_first_index<entities_list, T>>(storage);
 		}
-		
+
 		template<typename... ARGS, typename F>
-		inline void exec_with(F f)
+		inline void exec_with(F&& f)
 		{
 			boost::fusion::for_each(storage, [&](auto& st) {
 				using entity_t = typename std::remove_reference<decltype(st)>::type::entity_t;

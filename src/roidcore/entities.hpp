@@ -11,12 +11,16 @@ namespace roidcore
 {
 	struct ship
 	{
+		ship(ship const&) = delete;
+
 		position p;
 		velocity v;
 	};
-	
+
 	struct station
 	{
+		station(station const&) = delete;
+
 		position p;
 	};
 
@@ -31,7 +35,7 @@ namespace roidcore
 		entities_e type;
 		size_t id;
 	};
-	
+
 	template<typename T>
 	struct entity_id
 	{
@@ -60,7 +64,7 @@ BOOST_FUSION_ADAPT_STRUCT(
 	roidcore::ship,
 	(roidcore::position, p)
 	(roidcore::velocity, v)
-) 
+)
 
 BOOST_FUSION_ADAPT_STRUCT(
 	roidcore::station,

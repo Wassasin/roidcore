@@ -42,7 +42,7 @@ namespace roidcore
 		{
 			if(first_empty >= buffer.size())
 				first_empty++;
-			
+
 			buffer.emplace_back(std::move(x));
 			return entity_id<T>(buffer.size()-1);
 		}
@@ -51,7 +51,7 @@ namespace roidcore
 		{
 			if(first_empty >= buffer.size())
 			{
-				buffer.emplace_back(std::move(x));
+				buffer.emplace_back(boost::make_optional(std::move(x)));
 				first_empty++;
 				return entity_id<T>(buffer.size()-1);
 			}
@@ -69,7 +69,7 @@ namespace roidcore
 		}
 
 		template<typename F>
-		void foreach(F f)
+		void foreach(F&& f)
 		{
 			for(size_t i = 0; i < first_empty; ++i)
 			{
@@ -82,9 +82,9 @@ namespace roidcore
 					f(entity_id<T>(i), *buffer[i]);
 			}
 		}
-		
+
 		template<typename F>
-		void foreach(F f) const
+		void foreach(F&& f) const
 		{
 			for(size_t i = 0; i < first_empty; ++i)
 			{

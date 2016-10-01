@@ -1,37 +1,39 @@
 #pragma once
 
 #include <glm/vec2.hpp>
+#include <boost/strong_typedef.hpp>
 
 namespace roidcore
 {
-	template<typename SELF>
-	struct vec2like
+	struct vec2like : public glm::vec2
 	{
-		float x, y;
+		using glm::vec2::vec2;
 
-		vec2like() = default;
-		vec2like(vec2like&&) = default;
-		
-		vec2like(float _x, float _y)
-		: x(_x)
-		, y(_y)
-		{}
-	};
+		vec2like(vec2like&) = delete;
 
-	struct velocity : public vec2like<velocity>
-	{
-		using vec2like<velocity>::vec2like;
-	};
-	
-	struct position : public vec2like<position>
-	{
-		using vec2like<position>::vec2like;
-		
-		position& operator+=(velocity const& v)
+		/*
+		bool operator<(const vec2like& rhs) const
 		{
-			x += v.x;
-			y += v.y;
-			return *this;
+			return false;
 		}
+		*/
 	};
+
+	//BOOST_STRONG_TYPEDEF(vec2like, velocity);
+	//BOOST_STRONG_TYPEDEF(vec2like, position);
+
+	struct velocity : public vec2like
+	{
+		using vec2like::vec2like;
+	};
+	struct position : public vec2like
+	{
+		using vec2like::vec2like;
+	};
+
+	position& operator+=(position& p, const velocity& v)
+	{
+		p += v;
+		return p;
+	}
 }

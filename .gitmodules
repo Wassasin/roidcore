@@ -6,7 +6,7 @@
 	url = ssh://git@github.com/msgpack/msgpack-c
 [submodule "contrib/glm"]
 	path = contrib/glm
-	url = ssh://github.com/g-truc/glm
+	url = ssh://git@github.com/g-truc/glm
 [submodule "contrib/benchmark"]
 	path = contrib/benchmark
-	url = ssh://github.com/google/benchmark
+	url = ssh://git@github.com/google/benchmark
